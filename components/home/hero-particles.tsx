@@ -21,18 +21,18 @@ export function HeroParticles() {
       detectRetina: true,
       particles: {
         number: {
-          value: 64,
+          value: 42,
           density: { enable: true, width: 800, height: 800 },
         },
-        color: { value: ["#38bdf8", "#22c55e", "#818cf8", "#fb923c"] },
+        color: { value: ["#93c5fd", "#a7f3d0", "#fcd34d", "#ffffff"] },
         opacity: {
-          value: { min: 0.04, max: 0.18 },
-          animation: { enable: true, speed: 0.3, minimumValue: 0.03 },
+          value: { min: 0.03, max: 0.11 },
+          animation: { enable: true, speed: 0.22, minimumValue: 0.02 },
         },
-        size: { value: { min: 1, max: 3.6 } },
+        size: { value: { min: 1, max: 2.8 } },
         move: {
           enable: true,
-          speed: 0.45,
+          speed: 0.26,
           direction: "none" as const,
           random: true,
           straight: false,
@@ -40,10 +40,10 @@ export function HeroParticles() {
         },
         links: {
           enable: true,
-          distance: 118,
-          color: "#93c5fd",
-          opacity: 0.14,
-          width: 0.8,
+          distance: 124,
+          color: "#cbd5e1",
+          opacity: 0.08,
+          width: 0.6,
         },
       },
       interactivity: {
@@ -55,7 +55,7 @@ export function HeroParticles() {
           grab: {
             distance: 150,
             links: {
-              opacity: 0.18,
+              opacity: 0.12,
             },
           },
         },
@@ -71,7 +71,7 @@ export function HeroParticles() {
   return (
     <Particles
       id="hero-particles"
-      className="pointer-events-none absolute inset-0 -z-10 size-full opacity-90"
+      className="pointer-events-none absolute inset-0 -z-10 size-full opacity-70"
       options={options}
     />
   );

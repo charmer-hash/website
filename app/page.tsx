@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 import { AiNetwork } from "@/components/home/ai-network";
+import { HomeAmbientBackground } from "@/components/home/home-ambient-background";
 import { HeroOrbScene } from "@/components/home/hero-orb-scene";
 import { HeroParticles } from "@/components/home/hero-particles";
 import { ScrollReveal } from "@/components/home/scroll-reveal";
@@ -121,7 +122,7 @@ const processFlow = [
 export default function Home() {
   return (
     <main className="relative overflow-hidden bg-[#f8fbff] text-slate-950">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(125,211,252,0.36),transparent_24%),radial-gradient(circle_at_82%_12%,rgba(196,181,253,0.28),transparent_22%),radial-gradient(circle_at_50%_62%,rgba(255,237,213,0.55),transparent_34%),linear-gradient(180deg,#f8fbff_0%,#f6fbff_42%,#eef7ff_100%)]" />
+      <HomeAmbientBackground />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[min(88vh,760px)]">
         <HeroParticles />
       </div>
@@ -325,8 +326,8 @@ export default function Home() {
               className="mt-6 rounded-full bg-slate-950 text-white shadow-[0_14px_30px_rgba(15,23,42,0.18)] hover:bg-slate-800"
               size="lg"
             >
-              <a href="mailto:hello@bty.design">
-                hello@bty.design
+              <a href="mailto:hello@gaoyuanAI.design">
+                hello@ai.design
                 <ArrowRight className="size-4" />
               </a>
             </Button>
