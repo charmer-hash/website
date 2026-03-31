@@ -1,186 +1,90 @@
 "use client";
 
-import { Float, Sparkles } from "@react-three/drei";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef } from "react";
-import { AdditiveBlending, type Group, type Mesh } from "three";
+import { Safari } from "@/components/ui/safari";
 
-function SatelliteCluster() {
-  const rootRef = useRef<Group>(null);
-  const ringRef = useRef<Mesh>(null);
-  const satelliteARef = useRef<Group>(null);
-  const satelliteBRef = useRef<Group>(null);
-  const satelliteCRef = useRef<Group>(null);
-  const haloRef = useRef<Mesh>(null);
+const safariScreen = encodeURIComponent(`
+  <svg width="1600" height="933" viewBox="0 0 1600 933" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1600" height="933" fill="#F8FBFF"/>
+    <rect width="1600" height="933" fill="url(#bg)"/>
+    <circle cx="1220" cy="120" r="240" fill="url(#glowA)"/>
+    <circle cx="250" cy="760" r="210" fill="url(#glowB)"/>
 
-  useFrame((state, delta) => {
-    const t = state.clock.elapsedTime;
+    <rect x="72" y="64" width="1456" height="805" rx="40" fill="rgba(255,255,255,0.72)" stroke="rgba(226,232,240,0.88)"/>
 
-    if (rootRef.current) {
-      rootRef.current.rotation.y += delta * 0.08;
-      rootRef.current.rotation.x = Math.sin(t * 0.28) * 0.04;
-      rootRef.current.position.y = Math.sin(t * 0.46) * 0.04;
-    }
+    <rect x="116" y="108" width="420" height="154" rx="28" fill="rgba(255,255,255,0.92)" stroke="#E2E8F0"/>
+    <text x="326" y="156" text-anchor="middle" fill="#0F172A" font-size="20" font-family="Arial, sans-serif" font-weight="700" letter-spacing="2">PERSONAL AI WEBSITE</text>
+    <text x="326" y="204" text-anchor="middle" fill="#0F172A" font-size="48" font-family="Arial, sans-serif" font-weight="700">AI Product Notes</text>
+    <text x="326" y="238" text-anchor="middle" fill="#64748B" font-size="20" font-family="Arial, sans-serif">Designing useful systems for real workflows</text>
 
-    if (ringRef.current) {
-      ringRef.current.rotation.z += delta * 0.12;
-    }
+    <rect x="116" y="296" width="286" height="493" rx="30" fill="rgba(255,255,255,0.96)" stroke="#E2E8F0"/>
+    <text x="152" y="350" fill="#0F172A" font-size="18" font-family="Arial, sans-serif" font-weight="700" letter-spacing="2">OVERVIEW</text>
+    <rect x="152" y="388" width="214" height="88" rx="24" fill="#EFF6FF" stroke="#BFDBFE"/>
+    <text x="182" y="437" fill="#0369A1" font-size="24" font-family="Arial, sans-serif" font-weight="700">Context</text>
+    <rect x="182" y="453" width="108" height="8" rx="4" fill="#7DD3FC"/>
+    <rect x="152" y="496" width="214" height="88" rx="24" fill="#F8FAFC" stroke="#E2E8F0"/>
+    <text x="182" y="545" fill="#334155" font-size="24" font-family="Arial, sans-serif" font-weight="700">Tools</text>
+    <rect x="182" y="561" width="120" height="8" rx="4" fill="#CBD5E1"/>
+    <rect x="152" y="604" width="214" height="126" rx="24" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <text x="182" y="650" fill="#0F172A" font-size="24" font-family="Arial, sans-serif" font-weight="700">Feedback loop</text>
+    <rect x="182" y="670" width="142" height="8" rx="4" fill="#DBEAFE"/>
+    <rect x="182" y="694" width="114" height="8" rx="4" fill="#E2E8F0"/>
 
-    if (satelliteARef.current) {
-      satelliteARef.current.rotation.z += delta * 0.38;
-    }
+    <rect x="432" y="296" width="1052" height="493" rx="30" fill="rgba(255,255,255,0.96)" stroke="#E2E8F0"/>
+    <rect x="476" y="340" width="430" height="405" rx="28" fill="url(#panel)" stroke="#BFDBFE"/>
+    <rect x="510" y="374" width="362" height="337" rx="24" fill="rgba(255,255,255,0.26)"/>
+    <circle cx="691" cy="542" r="96" fill="rgba(255,255,255,0.72)"/>
+    <circle cx="691" cy="542" r="54" fill="rgba(255,255,255,0.76)"/>
+    <path d="M668 495L748 542L668 589V495Z" fill="#0EA5E9"/>
 
-    if (satelliteBRef.current) {
-      satelliteBRef.current.rotation.z -= delta * 0.28;
-    }
+    <g transform="translate(960 376)">
+      <text x="262" y="0" text-anchor="middle" fill="#0F172A" font-size="48" font-family="Arial, sans-serif" font-weight="700">Personal AI Interface</text>
+      <text x="262" y="44" text-anchor="middle" fill="#475569" font-size="22" font-family="Arial, sans-serif">Observation, orchestration,</text>
+      <text x="262" y="76" text-anchor="middle" fill="#475569" font-size="22" font-family="Arial, sans-serif">guardrails and usable feedback.</text>
+      <rect x="52" y="118" width="420" height="10" rx="5" fill="#E2E8F0"/>
+      <rect x="82" y="144" width="360" height="10" rx="5" fill="#E2E8F0"/>
 
-    if (satelliteCRef.current) {
-      satelliteCRef.current.rotation.z += delta * 0.18;
-    }
+      <rect x="86" y="194" width="170" height="54" rx="27" fill="#0F172A"/>
+      <text x="171" y="228" text-anchor="middle" fill="#FFFFFF" font-size="20" font-family="Arial, sans-serif" font-weight="700">Watch demo</text>
+      <rect x="274" y="194" width="186" height="54" rx="27" fill="#FFFFFF" stroke="#CBD5E1"/>
+      <text x="367" y="228" text-anchor="middle" fill="#334155" font-size="20" font-family="Arial, sans-serif" font-weight="700">Open notes</text>
 
-    if (haloRef.current) {
-      const pulse = 1 + Math.sin(t * 1.3) * 0.035;
-      haloRef.current.scale.setScalar(pulse);
-    }
-  });
+      <rect x="64" y="290" width="128" height="72" rx="20" fill="#F8FAFC" stroke="#E2E8F0"/>
+      <rect x="198" y="290" width="128" height="72" rx="20" fill="#F0FDF4" stroke="#BBF7D0"/>
+      <rect x="332" y="290" width="128" height="72" rx="20" fill="#FAF5FF" stroke="#DDD6FE"/>
+      <text x="128" y="332" text-anchor="middle" fill="#0F172A" font-size="20" font-family="Arial, sans-serif" font-weight="700">Agents</text>
+      <text x="262" y="332" text-anchor="middle" fill="#166534" font-size="20" font-family="Arial, sans-serif" font-weight="700">Eval</text>
+      <text x="396" y="332" text-anchor="middle" fill="#6D28D9" font-size="20" font-family="Arial, sans-serif" font-weight="700">Memory</text>
+    </g>
 
-  return (
-    <group ref={rootRef}>
-      <mesh ref={haloRef}>
-        <sphereGeometry args={[0.9, 40, 40]} />
-        <meshBasicMaterial
-          color="#7dd3fc"
-          transparent
-          opacity={0.08}
-          depthWrite={false}
-          blending={AdditiveBlending}
-        />
-      </mesh>
+    <defs>
+      <linearGradient id="bg" x1="800" y1="0" x2="800" y2="933" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#F8FBFF"/>
+        <stop offset="1" stop-color="#ECF5FF"/>
+      </linearGradient>
+      <linearGradient id="panel" x1="488" y1="338" x2="872" y2="638" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#DFF4FF"/>
+        <stop offset="1" stop-color="#DCEAFE"/>
+      </linearGradient>
+      <radialGradient id="glowA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1220 120) rotate(90) scale(240)">
+        <stop stop-color="#CFFAFE" stop-opacity="0.95"/>
+        <stop offset="1" stop-color="#CFFAFE" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="glowB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(250 760) rotate(90) scale(210)">
+        <stop stop-color="#DBEAFE" stop-opacity="0.92"/>
+        <stop offset="1" stop-color="#DBEAFE" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+  </svg>
+`);
 
-      <Float speed={1.1} rotationIntensity={0.04} floatIntensity={0.18}>
-        <mesh>
-          <sphereGeometry args={[0.58, 48, 48]} />
-          <meshPhysicalMaterial
-            color="#fbfdff"
-            emissive="#dbeafe"
-            emissiveIntensity={0.16}
-            roughness={0.08}
-            metalness={0.08}
-            transmission={0.34}
-            thickness={0.4}
-            clearcoat={1}
-            clearcoatRoughness={0.08}
-          />
-        </mesh>
-      </Float>
-
-      <mesh ref={ringRef} rotation={[0.92, 0.16, 0.08]}>
-        <torusGeometry args={[1.55, 0.025, 20, 220]} />
-        <meshStandardMaterial
-          color="#93c5fd"
-          emissive="#93c5fd"
-          emissiveIntensity={0.08}
-          transparent
-          opacity={0.68}
-          roughness={0.24}
-          metalness={0.6}
-        />
-      </mesh>
-
-      <group ref={satelliteARef} rotation={[0.2, 0.1, 0.8]}>
-        <group position={[1.55, 0, 0]}>
-          <mesh scale={1.8}>
-            <sphereGeometry args={[0.11, 16, 16]} />
-            <meshBasicMaterial
-              color="#38bdf8"
-              transparent
-              opacity={0.14}
-              depthWrite={false}
-              blending={AdditiveBlending}
-            />
-          </mesh>
-          <mesh>
-            <sphereGeometry args={[0.07, 28, 28]} />
-            <meshStandardMaterial
-              color="#38bdf8"
-              emissive="#38bdf8"
-              emissiveIntensity={0.18}
-              roughness={0.18}
-              metalness={0.35}
-            />
-          </mesh>
-        </group>
-      </group>
-
-      <group ref={satelliteBRef} rotation={[-0.28, -0.3, 2.3]}>
-        <group position={[2.05, 0, 0]}>
-          <mesh rotation={[0.36, 0.2, 0.12]}>
-            <boxGeometry args={[0.24, 0.24, 0.24]} />
-            <meshPhysicalMaterial
-              color="#f5f3ff"
-              transparent
-              opacity={0.72}
-              roughness={0.14}
-              metalness={0.08}
-              clearcoat={1}
-              clearcoatRoughness={0.1}
-            />
-          </mesh>
-        </group>
-      </group>
-
-      <group ref={satelliteCRef} rotation={[0.9, 0.24, -0.7]}>
-        <group position={[1.18, 0, 0]}>
-          <mesh rotation={[0.2, 0.32, 0.18]}>
-            <torusGeometry args={[0.24, 0.02, 16, 100]} />
-            <meshStandardMaterial
-              color="#86efac"
-              transparent
-              opacity={0.56}
-              roughness={0.24}
-              metalness={0.62}
-            />
-          </mesh>
-        </group>
-      </group>
-
-      <Sparkles
-        count={10}
-        scale={[5.8, 4.6, 4]}
-        size={2.6}
-        speed={0.12}
-        opacity={0.16}
-        color="#bae6fd"
-      />
-    </group>
-  );
-}
+const screenSrc = `data:image/svg+xml;charset=UTF-8,${safariScreen}`;
 
 export function HeroOrbScene() {
   return (
-    <div className="relative h-[26rem] w-full overflow-hidden rounded-[2.25rem] border border-white/80 bg-[radial-gradient(circle_at_50%_28%,rgba(191,219,254,0.42),transparent_26%),radial-gradient(circle_at_50%_96%,rgba(224,242,254,0.68),transparent_42%),linear-gradient(180deg,rgba(255,255,255,0.98),rgba(243,249,255,0.95))] shadow-[0_35px_100px_rgba(148,163,184,0.14)] backdrop-blur-sm sm:h-[32rem] lg:h-[40rem]">
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.08)_1px,transparent_1px)] bg-[size:72px_72px] opacity-30" />
-      <div className="absolute left-6 top-6 rounded-full border border-slate-200/80 bg-white/82 px-3 py-1 text-[0.65rem] uppercase tracking-[0.24em] text-slate-500 backdrop-blur">
-        Satellite object
-      </div>
-
-      <Canvas
-        dpr={[1, 1.6]}
-        camera={{ position: [0, 0, 7], fov: 36 }}
-        gl={{ antialias: true, alpha: true }}
-        className="h-full w-full"
-      >
-        <color attach="background" args={["#f8fbff"]} />
-        <fog attach="fog" args={["#f4faff", 7, 12]} />
-        <ambientLight intensity={1.18} />
-        <directionalLight position={[4, 5, 3]} intensity={1.8} color="#ffffff" />
-        <pointLight position={[-4, -1, 4]} intensity={8} distance={10} color="#7dd3fc" />
-        <pointLight position={[4, 1, 3]} intensity={5.5} distance={9} color="#c4b5fd" />
-        <pointLight position={[0, 3, 2]} intensity={4.2} distance={8} color="#ffffff" />
-        <SatelliteCluster />
-      </Canvas>
-
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-white/78 to-transparent" />
-    </div>
+    <Safari
+      url="whiteinte.com"
+      imageSrc={screenSrc}
+      className="block w-full max-w-full overflow-hidden rounded-[1.75rem] shadow-[0_30px_80px_rgba(148,163,184,0.16)]"
+    />
   );
 }
