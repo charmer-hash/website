@@ -7,9 +7,11 @@ import { Button } from "@/components/ui/button";
 import { getAllPosts, getFeaturedPost } from "@/lib/blog";
 
 export const metadata: Metadata = {
-  title: "Blog | BTY",
+  title: "Blog | Gaoyuan",
   description: "关于 AI 产品、Agent 工作流和个人表达的文章列表。",
 };
+
+export const dynamic = "force-static";
 
 export default function BlogPage() {
   const posts = getAllPosts();

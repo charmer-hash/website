@@ -163,7 +163,7 @@ export default function Home() {
                 variant="outline"
                 className="h-11 rounded-full border-white/80 bg-white/82 text-slate-900 shadow-[0_12px_28px_rgba(148,163,184,0.12)] hover:bg-white"
               >
-                <a href="mailto:hello@bty.design">合作 / 交流</a>
+                <a href="mailto:hello@gaoyuan.design">合作 / 交流</a>
               </Button>
             </div>
           </div>

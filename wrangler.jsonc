@@ -1,0 +1,50 @@
+{
+  // Wrangler 配置 Schema，用于编辑器补全与校验
+  "$schema": "node_modules/wrangler/config-schema.json",
+
+  // OpenNext 构建产物：Worker 入口（pnpm run deploy / opennextjs-cloudflare build 后生成）
+  "main": ".open-next/worker.js",
+
+  // 在 Cloudflare 控制台中显示的 Worker 名称；修改时请同步改下方 services[].service
+  "name": "website",
+
+  // 是否保留构建产物中的符号名（默认 false，一般无需改动）
+  "keep_names": false,
+
+  // Workers 运行时 API 行为快照日期，需与依赖（如 nodejs_compat）要求一致
+  "compatibility_date": "2026-03-31",
+
+  // nodejs_compat：Node API 兼容；global_fetch_strictly_public：收紧 fetch 可请求范围
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+
+  // 静态资源：OpenNext 输出目录；ASSETS 为 Worker 内绑定名
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+
+  // OpenNext 自引用：同一 Worker 通过 service binding 调用自身（ISR/内部路由等）
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "website"
+    }
+  ],
+
+  // 自定义域名：pattern 为域名；需在 Cloudflare 中完成 DNS 与域名接入
+  "routes": [
+    {
+      "pattern": "whiteinte.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.whiteinte.com",
+      "custom_domain": true
+    }
+  ],
+
+  // 开启 Workers 可观测性（日志等，以控制台实际能力为准）
+  "observability": {
+    "enabled": true
+  }
+}
