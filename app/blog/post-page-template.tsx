@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Clock3 } from "lucide-react";
 import { notFound } from "next/navigation";
-import rehypePrettyCode from "rehype-pretty-code";
 import remarkGfm from "remark-gfm";
-import { MarkdownAsync } from "react-markdown";
+import Markdown from "react-markdown";
 import type { ReactNode } from "react";
 
 import { CodeBlock } from "@/components/blog/code-block";
@@ -18,14 +17,6 @@ import {
 
 const surfaceClass =
   "border border-white/80 bg-white/78 shadow-[0_18px_44px_rgba(148,163,184,0.12)] backdrop-blur-sm";
-
-const prettyCodeOptions = {
-  theme: "github-light",
-  keepBackground: false,
-  defaultLang: {
-    block: "text",
-  },
-} as const;
 
 export async function getBlogPostMetadata(slug: string): Promise<Metadata> {
   const post = getPostBySlug(slug);
@@ -161,9 +152,8 @@ export async function BlogPostTemplate({ slug }: { slug: string }) {
 
 async function MarkdownContent({ source }: { source: string }) {
   return (
-    <MarkdownAsync
+    <Markdown
       remarkPlugins={[remarkGfm]}
-      rehypePlugins={[[rehypePrettyCode, prettyCodeOptions]]}
       components={{
         h2: (props) => (
           <h2
@@ -177,14 +167,8 @@ async function MarkdownContent({ source }: { source: string }) {
         h3: (props) => (
           <h3 className="mt-8 text-xl font-semibold tracking-tight text-slate-950" {...props} />
         ),
-        figure: ({ node, children, ...props }) => {
-          if (hasPrettyCodeFigure(node)) {
-            return <figure {...props}>{children}</figure>;
-          }
-
-          return <figure {...props}>{children}</figure>;
-        },
-        pre: ({ node, children, ...props }) => {
+        figure: ({ children, ...props }) => <figure {...props}>{children}</figure>,
+        pre: ({ node }) => {
           const language = getNodeLanguage(node);
           const chart = getNodeText(node).trim();
 
@@ -193,14 +177,7 @@ async function MarkdownContent({ source }: { source: string }) {
           }
 
           return (
-            <CodeBlock code={chart} language={language}>
-              <pre
-                className="overflow-x-auto px-5 py-5 text-[0.92rem] leading-7 text-slate-800 sm:px-6 [&_.line]:inline-block [&_.line]:min-h-[1.55rem] [&_code]:grid [&_code]:min-w-full [&_code]:font-mono [&_code]:text-[0.9rem] [&_code]:[counter-reset:line] [&_[data-line]]:px-0 [&_[data-line]]:before:mr-5 [&_[data-line]]:before:inline-block [&_[data-line]]:before:w-6 [&_[data-line]]:before:text-right [&_[data-line]]:before:text-[0.72rem] [&_[data-line]]:before:text-slate-300 [&_[data-line]]:before:content-[counter(line)] [&_[data-line]]:before:[counter-increment:line] [&_[data-highlighted-line]]:rounded-lg [&_[data-highlighted-line]]:bg-sky-100/60"
-                {...props}
-              >
-                {children}
-              </pre>
-            </CodeBlock>
+            <CodeBlock code={chart} language={language} />
           );
         },
         code: ({ className, children, ...props }) => {
@@ -261,18 +238,8 @@ async function MarkdownContent({ source }: { source: string }) {
       }}
     >
       {source}
-    </MarkdownAsync>
+    </Markdown>
   );
-}
-
-function hasPrettyCodeFigure(node: unknown) {
-  if (!node || typeof node !== "object" || !("properties" in node)) {
-    return false;
-  }
-
-  const properties = (node as { properties?: Record<string, unknown> }).properties;
-
-  return Boolean(properties?.["data-rehype-pretty-code-figure"]);
 }
 
 function getNodeLanguage(node: unknown): string | null {
@@ -285,6 +252,24 @@ function getNodeLanguage(node: unknown): string | null {
 
   if (typeof directLanguage === "string") {
     return directLanguage;
+  }
+
+  const className = properties?.className;
+
+  if (typeof className === "string") {
+    return getLanguageFromClassName(className);
+  }
+
+  if (Array.isArray(className)) {
+    for (const item of className) {
+      if (typeof item === "string") {
+        const language = getLanguageFromClassName(item);
+
+        if (language) {
+          return language;
+        }
+      }
+    }
   }
 
   if ("children" in node && Array.isArray((node as { children?: unknown[] }).children)) {
@@ -318,4 +303,10 @@ function getNodeText(node: unknown): string {
   }
 
   return "";
+}
+
+function getLanguageFromClassName(className: string) {
+  const match = className.match(/(?:^|\s)language-([\w-]+)(?:\s|$)/);
+
+  return match?.[1] ?? null;
 }

@@ -1,16 +1,16 @@
 "use client";
 
 import { Check, Copy } from "lucide-react";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState } from "react";
 
 type CodeBlockProps = {
-  children: ReactNode;
   code: string;
   language: string | null;
 };
 
-export function CodeBlock({ children, code, language }: CodeBlockProps) {
+export function CodeBlock({ code, language }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
+  const [highlightedCode, setHighlightedCode] = useState<string | null>(null);
 
   useEffect(() => {
     if (!copied) {
@@ -25,6 +25,41 @@ export function CodeBlock({ children, code, language }: CodeBlockProps) {
       window.clearTimeout(timeout);
     };
   }, [copied]);
+
+  useEffect(() => {
+    let active = true;
+    const normalizedLanguage = normalizeLanguage(language);
+
+    if (!normalizedLanguage) {
+      setHighlightedCode(null);
+      return () => {
+        active = false;
+      };
+    }
+
+    import("@speed-highlight/core")
+      .then(({ highlightText }) =>
+        highlightText(code, normalizedLanguage, false, { hideLineNumbers: true })
+      )
+      .then((result) => {
+        if (!active) {
+          return;
+        }
+
+        setHighlightedCode(result);
+      })
+      .catch(() => {
+        if (!active) {
+          return;
+        }
+
+        setHighlightedCode(null);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [code, language]);
 
   async function handleCopy() {
     try {
@@ -58,10 +93,84 @@ export function CodeBlock({ children, code, language }: CodeBlockProps) {
       </div>
 
       <div className="bg-[radial-gradient(circle_at_top,rgba(224,242,254,0.55),transparent_24%),linear-gradient(180deg,#fbfdff_0%,#f8fbff_100%)]">
-        {children}
+        <pre className="overflow-x-auto px-5 py-5 text-[0.92rem] leading-7 text-slate-800 sm:px-6">
+          <code
+            className="grid min-w-full font-mono text-[0.9rem] [word-break:normal] [&_.shj-syn-bool]:text-sky-700 [&_.shj-syn-class]:text-amber-700 [&_.shj-syn-cmnt]:text-slate-400 [&_.shj-syn-deleted]:text-rose-600 [&_.shj-syn-err]:text-rose-600 [&_.shj-syn-func]:text-violet-600 [&_.shj-syn-insert]:text-emerald-700 [&_.shj-syn-kwd]:text-rose-600 [&_.shj-syn-num]:text-blue-700 [&_.shj-syn-oper]:text-sky-700 [&_.shj-syn-section]:text-violet-600 [&_.shj-syn-str]:text-cyan-900 [&_.shj-syn-type]:text-sky-700 [&_.shj-syn-var]:text-blue-700"
+            dangerouslySetInnerHTML={
+              highlightedCode ? { __html: highlightedCode } : undefined
+            }
+          >
+            {highlightedCode ? null : code}
+          </code>
+        </pre>
       </div>
     </div>
   );
+}
+
+type SupportedLanguage =
+  | "bash"
+  | "css"
+  | "diff"
+  | "html"
+  | "js"
+  | "json"
+  | "md"
+  | "plain"
+  | "py"
+  | "sql"
+  | "toml"
+  | "ts"
+  | "yaml";
+
+function normalizeLanguage(language: string | null): SupportedLanguage | null {
+  if (!language) {
+    return "plain";
+  }
+
+  switch (language.toLowerCase()) {
+    case "js":
+    case "jsx":
+    case "javascript":
+      return "js";
+    case "ts":
+    case "tsx":
+    case "typescript":
+      return "ts";
+    case "bash":
+    case "sh":
+    case "shell":
+    case "zsh":
+      return "bash";
+    case "html":
+      return "html";
+    case "css":
+      return "css";
+    case "json":
+      return "json";
+    case "sql":
+      return "sql";
+    case "md":
+    case "mdx":
+    case "markdown":
+      return "md";
+    case "yaml":
+    case "yml":
+      return "yaml";
+    case "toml":
+      return "toml";
+    case "python":
+    case "py":
+      return "py";
+    case "diff":
+      return "diff";
+    case "text":
+    case "txt":
+    case "plain":
+      return "plain";
+    default:
+      return null;
+  }
 }
 
 function formatLanguage(language: string | null) {
