@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, BookOpen } from "lucide-react";
 
+import { BlogAmbientBackground } from "@/components/blog/blog-ambient-background";
 import { PostCard } from "@/components/blog/post-card";
 import { Button } from "@/components/ui/button";
 import { getAllPosts, getFeaturedPost } from "@/lib/blog";
@@ -21,8 +22,12 @@ export default function BlogPage() {
     : [];
 
   return (
-    <div className="py-10 sm:py-14">
-      <section className="border-b border-sky-100/80 pb-10 sm:pb-12">
+    <div className="relative isolate py-10 sm:py-14">
+      <div className="absolute inset-x-0 top-0 z-0 h-[42rem] sm:h-[48rem]">
+        <BlogAmbientBackground />
+      </div>
+
+      <section className="relative z-10 border-b border-sky-100/80 pb-10 sm:pb-12">
         <div className="max-w-3xl">
           <div className="inline-flex items-center gap-2 rounded-full border border-sky-200/80 bg-white/88 px-3 py-1 text-xs font-medium uppercase tracking-[0.24em] text-sky-700 shadow-sm">
             <BookOpen className="size-3.5 text-sky-600" />
@@ -49,7 +54,7 @@ export default function BlogPage() {
       </section>
 
       {featuredPost ? (
-        <section className="pt-10 sm:pt-12">
+        <section className="relative z-10 pt-10 sm:pt-12">
           <div className="mb-5 flex items-center justify-between gap-4">
             <div>
               <div className="text-[0.72rem] uppercase tracking-[0.24em] text-slate-400">
@@ -65,7 +70,7 @@ export default function BlogPage() {
         </section>
       ) : null}
 
-      <section className="pt-10 sm:pt-12">
+      <section className="relative z-10 pt-10 sm:pt-12">
         <div className="mb-5 flex items-center justify-between gap-4">
           <div>
             <div className="text-[0.72rem] uppercase tracking-[0.24em] text-slate-400">
