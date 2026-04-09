@@ -16,7 +16,9 @@ export const dynamic = "force-static";
 export default function BlogPage() {
   const posts = getAllPosts();
   const featuredPost = getFeaturedPost();
-  const restPosts = posts.filter((post) => post.slug !== featuredPost.slug);
+  const restPosts = featuredPost
+    ? posts.filter((post) => post.slug !== featuredPost.slug)
+    : [];
 
   return (
     <div className="py-10 sm:py-14">
@@ -46,20 +48,22 @@ export default function BlogPage() {
         </div>
       </section>
 
-      <section className="pt-10 sm:pt-12">
-        <div className="mb-5 flex items-center justify-between gap-4">
-          <div>
-            <div className="text-[0.72rem] uppercase tracking-[0.24em] text-slate-400">
-              Featured
+      {featuredPost ? (
+        <section className="pt-10 sm:pt-12">
+          <div className="mb-5 flex items-center justify-between gap-4">
+            <div>
+              <div className="text-[0.72rem] uppercase tracking-[0.24em] text-slate-400">
+                Featured
+              </div>
+              <h2 className="mt-2 text-[1.65rem] font-semibold tracking-tight text-slate-950">
+                推荐阅读
+              </h2>
             </div>
-            <h2 className="mt-2 text-[1.65rem] font-semibold tracking-tight text-slate-950">
-              推荐阅读
-            </h2>
           </div>
-        </div>
 
-        <PostCard post={featuredPost} featured />
-      </section>
+          <PostCard post={featuredPost} featured />
+        </section>
+      ) : null}
 
       <section className="pt-10 sm:pt-12">
         <div className="mb-5 flex items-center justify-between gap-4">
@@ -74,11 +78,17 @@ export default function BlogPage() {
           <div className="text-sm text-slate-400">{posts.length} 篇</div>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-2">
-          {restPosts.map((post) => (
-            <PostCard key={post.slug} post={post} />
-          ))}
-        </div>
+        {posts.length ? (
+          <div className="grid gap-4 lg:grid-cols-2">
+            {(featuredPost ? restPosts : posts).map((post) => (
+              <PostCard key={post.slug} post={post} />
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-[1.5rem] border border-white/80 bg-white/82 p-8 text-slate-600 shadow-[0_16px_40px_rgba(148,163,184,0.1)]">
+            还没有文章，直接在 `content/blog` 里新增 Markdown 文件即可。
+          </div>
+        )}
       </section>
     </div>
   );
