@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Website
 
-## Getting Started
+这个项目现在使用 Next.js 的纯静态导出模式。
 
-First, run the development server:
+## 内容维护
+
+博客内容只需要维护 [`content/blog`](/Users/bty/Desktop/website/content/blog) 里的 Markdown 文件。
+
+- 文件名就是文章 `slug`
+- 构建前会自动生成 [`lib/generated/blog.generated.ts`](/Users/bty/Desktop/website/lib/generated/blog.generated.ts)
+- 不需要手动编辑 generated 文件
+
+## 本地开发
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 静态构建
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+构建完成后，静态站点产物会输出到 `out/`。
 
-## Learn More
+## 本地预览静态站点
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm preview:static
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 部署
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+把 `out/` 目录部署到任意静态托管平台即可，例如：
 
-## Deploy on Vercel
+- Cloudflare Pages
+- Netlify
+- Vercel Static Hosting
+- Nginx / OSS / S3 + CDN
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+如果你使用 Cloudflare Pages，把 `out/` 作为发布目录即可，不再需要 OpenNext 或 Worker。

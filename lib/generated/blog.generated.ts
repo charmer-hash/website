@@ -3,7 +3,7 @@
 
 export const blogPosts = [
   {
-    "slug": "Event-loop",
+    "slug": "event-loop",
     "title": "事件循环",
     "excerpt": "从浏览器进程、线程和消息队列出发，梳理 JavaScript 事件循环为什么会存在，以及它如何驱动异步执行。",
     "description": "系统整理浏览器的进程模型、渲染主线程、消息队列、微任务与计时器误差，帮助理解 JavaScript 事件循环。",
