@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useId, useState } from "react";
-import mermaid from "mermaid";
 
 type MermaidDiagramProps = {
   chart: string;
@@ -15,21 +14,23 @@ export function MermaidDiagram({ chart }: MermaidDiagramProps) {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (!mermaidInitialized) {
-      mermaid.initialize({
-        startOnLoad: false,
-        securityLevel: "loose",
-        theme: "neutral",
-        fontFamily:
-          '"Avenir Next","SF Pro Display","PingFang SC","Helvetica Neue",sans-serif',
-      });
-      mermaidInitialized = true;
-    }
-
     let active = true;
 
-    mermaid
-      .render(`mermaid-${id}`, chart)
+    import("mermaid")
+      .then(({ default: mermaid }) => {
+        if (!mermaidInitialized) {
+          mermaid.initialize({
+            startOnLoad: false,
+            securityLevel: "loose",
+            theme: "neutral",
+            fontFamily:
+              '"Avenir Next","SF Pro Display","PingFang SC","Helvetica Neue",sans-serif',
+          });
+          mermaidInitialized = true;
+        }
+
+        return mermaid.render(`mermaid-${id}`, chart);
+      })
       .then(({ svg }) => {
         if (!active) {
           return;

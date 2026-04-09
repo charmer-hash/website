@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "blog:generate": "node scripts/generate-blog-manifest.mjs",
+    "predev": "pnpm blog:generate",
     "dev": "next dev",
+    "prebuild": "pnpm blog:generate",
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
+    "precf:build": "pnpm blog:generate",
     "cf:build": "opennextjs-cloudflare build",
     "cf:preview": "pnpm cf:build && wrangler dev",
     "cf:deploy": "pnpm cf:build && opennextjs-cloudflare deploy"
