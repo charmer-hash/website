@@ -27,7 +27,7 @@ hero:
 >
 > 程序运行需要有它的专属内存空间，可以把这个空间简单理解为一个进程。
 
-![截屏2026-04-04 20.12.38](/Users/ygy/Library/Application Support/typora-user-images/截屏2026-04-04 20.12.38.png)
+![截屏2026-04-04 20.12.38](https://i-blog.csdnimg.cn/direct/07d1fd43c39545818ce942927eda0546.png)
 
 每个应用至少有一个进程。进程之间相互独立，即使要通信，也需要双方同意。
 
@@ -37,7 +37,7 @@ hero:
 
 > 线程是操作系统能够进行运算调度的最小单元，是进程中实际运行的单位。
 
-![截屏2026-04-04 20.16.33](/Users/ygy/Library/Application Support/typora-user-images/截屏2026-04-04 20.16.33.png)
+![截屏2026-04-04 20.16.33](https://i-blog.csdnimg.cn/direct/a634a3b6241e4b4eb691e5276afddcc8.png)
 
 有了进程之后，要真正运行代码，还需要“执行者”，这就是线程。
 
@@ -51,7 +51,7 @@ hero:
 
 为了避免互相影响，也为了减少连环崩溃的概率，浏览器启动后通常会拉起多个进程。
 
-![截屏2026-04-04 20.21.39](/Users/ygy/Library/Application Support/typora-user-images/截屏2026-04-04 20.21.39.png)
+![截屏2026-04-04 20.21.39](https://i-blog.csdnimg.cn/direct/bc88f3ad11594a48a155de483b4dab4e.png)
 
 浏览器中通常可以看到三类关键进程：
 
@@ -77,7 +77,7 @@ hero:
 
 当要处理的任务越来越多时，渲染主线程面临的核心问题其实是：如何调度任务。
 
-![截屏2026-04-04 20.33.50](/Users/ygy/Library/Application Support/typora-user-images/截屏2026-04-04 20.33.50.png)
+![截屏2026-04-04 20.33.50](https://i-blog.csdnimg.cn/direct/60fb0090919949018f017e0365298e14.png)
 
 它大致会按下面的方式工作：
 
