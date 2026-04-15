@@ -2,58 +2,80 @@
 
 import { forwardRef, useRef } from "react";
 import {
-  Bot,
+  BrainCircuit,
+  Cpu,
   Database,
-  ShieldCheck,
-  Sparkles,
-  WandSparkles,
+  Eye,
+  Play,
+  Wrench,
   Workflow,
 } from "lucide-react";
 
 import { AnimatedBeam } from "@/components/ui/animated-beam";
 import { cn } from "@/lib/utils";
 
-type BeamCardProps = {
-  title: string;
-  subtitle: string;
+type BeamNodeProps = {
   icon: React.ComponentType<{ className?: string }>;
-  tone: "sky" | "mist" | "slate";
+  tone: "sky" | "mist" | "slate" | "core";
+  size?: "sm" | "lg";
+  label?: string;
   className?: string;
 };
 
-const toneMap: Record<BeamCardProps["tone"], string> = {
-  sky: "border-sky-200/90 bg-white/88 shadow-[0_18px_36px_rgba(56,189,248,0.1)]",
-  mist: "border-sky-100/90 bg-white/84 shadow-[0_16px_34px_rgba(125,211,252,0.08)]",
+const toneMap: Record<BeamNodeProps["tone"], string> = {
+  sky: "border-sky-200/70 bg-white/85 shadow-[0_20px_45px_rgba(56,189,248,0.14)]",
+  mist: "border-slate-200/80 bg-white/80 shadow-[0_18px_40px_rgba(148,163,184,0.12)]",
   slate:
-    "border-slate-200/90 bg-white/88 shadow-[0_18px_36px_rgba(148,163,184,0.1)]",
+    "border-slate-300/80 bg-slate-50/90 shadow-[0_18px_36px_rgba(100,116,139,0.12)]",
+  core: "border-sky-200/80 bg-white/95 shadow-[0_30px_80px_rgba(56,189,248,0.18)]",
 };
 
-const BeamCard = forwardRef<HTMLDivElement, BeamCardProps>(
-  ({ title, subtitle, icon: Icon, tone, className }, ref) => {
+const sizeMap = {
+  sm: {
+    shell: "size-14 rounded-[1.35rem]",
+    inner: "size-10 rounded-[1rem]",
+    icon: "size-5",
+  },
+  lg: {
+    shell: "size-24 rounded-[2rem]",
+    inner: "size-16 rounded-[1.4rem]",
+    icon: "size-8",
+  },
+};
+
+const BeamNode = forwardRef<HTMLDivElement, BeamNodeProps>(
+  ({ icon: Icon, tone, size = "sm", label, className }, ref) => {
+    const classes = sizeMap[size];
+
     return (
       <div
         ref={ref}
         className={cn(
-          "relative rounded-[1.35rem] border px-3.5 py-3.5 backdrop-blur-xl",
+          "relative flex items-center justify-center border backdrop-blur-xl",
+          classes.shell,
           toneMap[tone],
           className,
         )}
       >
-        <div className="flex items-start gap-3">
-          <div className="rounded-[1rem] border border-white/80 bg-slate-50/90 p-2">
-            <Icon className="size-4 text-slate-800" />
-          </div>
-          <div>
-            <div className="text-[0.92rem] font-semibold text-slate-950">{title}</div>
-            <div className="mt-1 text-[0.72rem] leading-5 text-slate-500">{subtitle}</div>
-          </div>
+        <div
+          className={cn(
+            "flex items-center justify-center border border-white/80 bg-linear-to-br from-white to-sky-50/70",
+            classes.inner,
+          )}
+        >
+          <Icon className={cn(classes.icon, "text-slate-800")} />
         </div>
+        {label ? (
+          <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap text-[0.68rem] font-medium tracking-[0.12em] text-slate-500 uppercase">
+            {label}
+          </div>
+        ) : null}
       </div>
     );
   },
 );
 
-BeamCard.displayName = "BeamCard";
+BeamNode.displayName = "BeamNode";
 
 export function AiNetwork() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -68,84 +90,66 @@ export function AiNetwork() {
   return (
     <div
       ref={containerRef}
-      className="relative isolate h-[28rem] overflow-hidden rounded-[2rem] border border-white/80 bg-[radial-gradient(circle_at_50%_18%,rgba(125,211,252,0.24),transparent_24%),radial-gradient(circle_at_50%_82%,rgba(191,219,254,0.18),transparent_26%),linear-gradient(180deg,rgba(255,255,255,0.96),rgba(241,248,255,0.93))] p-5 shadow-[0_30px_90px_rgba(56,189,248,0.08)] sm:h-[32rem] md:h-[35rem] md:p-8"
+      className="relative isolate h-[24rem] overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white p-4 shadow-[0_24px_80px_rgba(15,23,42,0.06)] sm:h-[28rem] md:h-[31rem] md:p-6"
     >
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.1)_1px,transparent_1px)] bg-[size:72px_72px] opacity-45" />
-      <div className="absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-100/50 blur-3xl" />
-      <div className="absolute left-8 top-8 text-[0.72rem] font-semibold tracking-[0.28em] text-sky-700 uppercase">
-        Animated Beam
-      </div>
-      <div className="absolute right-8 top-8 rounded-full border border-slate-200/80 bg-white/82 px-3 py-1 text-xs text-slate-500 backdrop-blur">
-        Magic UI showcase
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.08)_1px,transparent_1px)] bg-[size:68px_68px] opacity-30" />
+      <div className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-100/80 blur-3xl md:h-80 md:w-80" />
+      <div className="absolute inset-x-0 top-6 text-center text-[0.68rem] font-semibold tracking-[0.34em] text-sky-700/80 uppercase">
+        AI Agent
       </div>
 
-      <BeamCard
+      <BeamNode
         ref={topLeftRef}
-        title="Intent"
-        subtitle="user goal"
-        icon={Sparkles}
+        icon={BrainCircuit}
         tone="sky"
-        className="absolute left-8 top-24 w-34 md:left-10 md:w-36"
+        label="LLM"
+        className="absolute left-8 top-20 md:left-16 md:top-24"
       />
-      <BeamCard
+      <BeamNode
         ref={leftRef}
-        title="Context"
-        subtitle="memory layer"
         icon={Database}
         tone="mist"
-        className="absolute left-3 top-1/2 w-34 -translate-y-1/2 md:left-6 md:w-36"
+        label="Memory"
+        className="absolute left-2 top-1/2 -translate-y-1/2 md:left-8"
       />
-      <BeamCard
+      <BeamNode
         ref={bottomLeftRef}
-        title="Guardrails"
-        subtitle="safe actions"
-        icon={ShieldCheck}
+        icon={Eye}
         tone="slate"
-        className="absolute bottom-10 left-10 w-36 md:bottom-14 md:left-16 md:w-38"
+        label="Observation"
+        className="absolute bottom-8 left-10 md:bottom-12 md:left-20"
       />
 
-      <BeamCard
+      <BeamNode
         ref={topRightRef}
-        title="Routing"
-        subtitle="model choice"
         icon={Workflow}
         tone="mist"
-        className="absolute right-8 top-24 w-34 md:right-10 md:w-36"
+        label="Planning"
+        className="absolute right-8 top-20 md:right-16 md:top-24"
       />
-      <BeamCard
+      <BeamNode
         ref={rightRef}
-        title="Output"
-        subtitle="product surface"
-        icon={WandSparkles}
+        icon={Wrench}
         tone="sky"
-        className="absolute right-3 top-1/2 w-34 -translate-y-1/2 md:right-6 md:w-36"
+        label="Tools"
+        className="absolute right-2 top-1/2 -translate-y-1/2 md:right-8"
       />
-      <BeamCard
+      <BeamNode
         ref={bottomRightRef}
-        title="Agent"
-        subtitle="tool execution"
-        icon={Bot}
+        icon={Play}
         tone="slate"
-        className="absolute bottom-10 right-10 w-36 md:bottom-14 md:right-16 md:w-38"
+        label="Action"
+        className="absolute bottom-8 right-10 md:bottom-12 md:right-20"
       />
 
-      <div
+      <BeamNode
         ref={centerRef}
-        className="absolute left-1/2 top-1/2 w-[15rem] -translate-x-1/2 -translate-y-1/2 rounded-[1.8rem] border border-sky-200/90 bg-white/94 px-5 py-6 text-center shadow-[0_0_0_1px_rgba(14,165,233,0.04),0_30px_80px_rgba(125,211,252,0.18)] backdrop-blur-xl md:w-[16.5rem]"
-      >
-        <div className="mx-auto inline-flex size-13 items-center justify-center rounded-[1.2rem] border border-sky-100 bg-linear-to-br from-sky-50 to-white">
-          <Bot className="size-6 text-sky-700" />
-        </div>
-        <div className="mt-4 text-[0.72rem] font-semibold tracking-[0.28em] text-slate-400 uppercase">
-          AI Core
-        </div>
-        <div className="mt-3 text-[1.15rem] font-semibold tracking-tight text-slate-950">
-          Magic UI Beam
-        </div>
-        <p className="mt-3 text-[0.92rem] leading-7 text-slate-600">
-          这里只做纯展示，用流动的 beam 把 AI 系统感表达出来。
-        </p>
-      </div>
+        icon={Cpu}
+        tone="core"
+        size="lg"
+        label="Agent Core"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+      />
 
       <AnimatedBeam
         containerRef={containerRef}
@@ -153,11 +157,16 @@ export function AiNetwork() {
         toRef={centerRef}
         fromAnchor="right"
         toAnchor="left"
-        curvature={54}
-        pathColor="rgba(148,163,184,0.14)"
-        gradientStartColor="#38bdf8"
-        gradientStopColor="#e0f2fe"
-        duration={5.2}
+        curvature={-30}
+        pathColor="rgba(14,165,233,0.22)"
+        pathWidth={2}
+        pathOpacity={0.9}
+        reverse={true}
+        gradientStartColor="#0ea5e9"
+        gradientStopColor="#7dd3fc"
+        beamLength={20}
+        delay={0}
+        duration={5.1}
       />
       <AnimatedBeam
         containerRef={containerRef}
@@ -165,25 +174,33 @@ export function AiNetwork() {
         toRef={centerRef}
         fromAnchor="right"
         toAnchor="left"
-        curvature={24}
-        pathColor="rgba(148,163,184,0.14)"
-        gradientStartColor="#7dd3fc"
-        gradientStopColor="#e0f2fe"
-        delay={0.35}
-        duration={5.6}
+        curvature={0}
+        reverse={true}
+        pathColor="rgba(14,165,233,0.2)"
+        pathWidth={2}
+        pathOpacity={0.85}
+        gradientStartColor="#38bdf8"
+        gradientStopColor="#bae6fd"
+        beamLength={20}
+        delay={0}
+        duration={5.1}
       />
       <AnimatedBeam
         containerRef={containerRef}
         fromRef={bottomLeftRef}
         toRef={centerRef}
         fromAnchor="top"
-        toAnchor="bottom"
-        curvature={-46}
-        pathColor="rgba(148,163,184,0.14)"
-        gradientStartColor="#93c5fd"
-        gradientStopColor="#e2e8f0"
-        delay={0.7}
-        duration={5.8}
+        toAnchor="left"
+        curvature={30}
+        reverse={true}
+        pathColor="rgba(59,130,246,0.2)"
+        pathWidth={2}
+        pathOpacity={0.85}
+        gradientStartColor="#60a5fa"
+        gradientStopColor="#bfdbfe"
+        beamLength={20}
+        delay={0}
+        duration={5.1}
       />
       <AnimatedBeam
         containerRef={containerRef}
@@ -191,11 +208,14 @@ export function AiNetwork() {
         toRef={topRightRef}
         fromAnchor="right"
         toAnchor="left"
-        curvature={46}
-        pathColor="rgba(148,163,184,0.14)"
-        gradientStartColor="#60a5fa"
-        gradientStopColor="#dbeafe"
-        delay={0.2}
+        curvature={30}
+        pathColor="rgba(37,99,235,0.22)"
+        pathWidth={2}
+        pathOpacity={0.9}
+        gradientStartColor="#2563eb"
+        gradientStopColor="#93c5fd"
+        beamLength={20}
+        delay={0}
         duration={5.1}
       />
       <AnimatedBeam
@@ -204,25 +224,31 @@ export function AiNetwork() {
         toRef={rightRef}
         fromAnchor="right"
         toAnchor="left"
-        curvature={16}
-        pathColor="rgba(148,163,184,0.14)"
-        gradientStartColor="#7dd3fc"
-        gradientStopColor="#e0f2fe"
-        delay={0.55}
-        duration={5.4}
+        curvature={0}
+        pathColor="rgba(14,165,233,0.2)"
+        pathWidth={2}
+        pathOpacity={0.85}
+        gradientStartColor="#0ea5e9"
+        gradientStopColor="#67e8f9"
+        beamLength={20}
+        delay={0}
+        duration={5.1}
       />
       <AnimatedBeam
         containerRef={containerRef}
         fromRef={centerRef}
         toRef={bottomRightRef}
-        fromAnchor="bottom"
-        toAnchor="left"
-        curvature={-42}
-        pathColor="rgba(148,163,184,0.14)"
-        gradientStartColor="#93c5fd"
-        gradientStopColor="#e2e8f0"
-        delay={0.9}
-        duration={6}
+        fromAnchor="right"
+        toAnchor="top"
+        curvature={-30}
+        pathColor="rgba(59,130,246,0.2)"
+        pathWidth={2}
+        pathOpacity={0.85}
+        gradientStartColor="#3b82f6"
+        gradientStopColor="#bfdbfe"
+        beamLength={20}
+        delay={0}
+        duration={5.1}
       />
     </div>
   );
