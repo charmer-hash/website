@@ -103,21 +103,21 @@ export function AiNetwork() {
         icon={BrainCircuit}
         tone="sky"
         label="LLM"
-        className="absolute left-8 top-20 md:left-16 md:top-24"
+        className="absolute left-5 top-[4.75rem] md:left-12 md:top-[6rem]"
       />
       <BeamNode
         ref={leftRef}
         icon={Database}
         tone="mist"
         label="Memory"
-        className="absolute left-2 top-1/2 -translate-y-1/2 md:left-8"
+        className="absolute left-5 top-1/2 -translate-y-1/2 md:left-12"
       />
       <BeamNode
         ref={bottomLeftRef}
         icon={Eye}
         tone="slate"
         label="Observation"
-        className="absolute bottom-8 left-10 md:bottom-12 md:left-20"
+        className="absolute left-5 top-[17.25rem] md:left-12 md:top-[22rem]"
       />
 
       <BeamNode
@@ -125,21 +125,21 @@ export function AiNetwork() {
         icon={Workflow}
         tone="mist"
         label="Planning"
-        className="absolute right-8 top-20 md:right-16 md:top-24"
+        className="absolute right-5 top-[4.75rem] md:right-12 md:top-[6rem]"
       />
       <BeamNode
         ref={rightRef}
         icon={Wrench}
         tone="sky"
         label="Tools"
-        className="absolute right-2 top-1/2 -translate-y-1/2 md:right-8"
+        className="absolute right-5 top-1/2 -translate-y-1/2 md:right-12"
       />
       <BeamNode
         ref={bottomRightRef}
         icon={Play}
         tone="slate"
         label="Action"
-        className="absolute bottom-8 right-10 md:bottom-12 md:right-20"
+        className="absolute right-5 top-[17.25rem] md:right-12 md:top-[22rem]"
       />
 
       <BeamNode
@@ -157,14 +157,14 @@ export function AiNetwork() {
         toRef={centerRef}
         fromAnchor="right"
         toAnchor="left"
-        curvature={-30}
-        pathColor="rgba(14,165,233,0.22)"
+        curvature={-24}
+        pathColor="rgba(148,163,184,0.22)"
         pathWidth={2}
-        pathOpacity={0.9}
+        pathOpacity={0.85}
         reverse={true}
-        gradientStartColor="#0ea5e9"
-        gradientStopColor="#7dd3fc"
-        beamLength={20}
+        gradientStartColor="#60a5fa"
+        gradientStopColor="#8b5cf6"
+        beamLength={18}
         delay={0}
         duration={5.1}
       />
@@ -176,12 +176,12 @@ export function AiNetwork() {
         toAnchor="left"
         curvature={0}
         reverse={true}
-        pathColor="rgba(14,165,233,0.2)"
+        pathColor="rgba(148,163,184,0.2)"
         pathWidth={2}
         pathOpacity={0.85}
         gradientStartColor="#38bdf8"
-        gradientStopColor="#bae6fd"
-        beamLength={20}
+        gradientStopColor="#8b5cf6"
+        beamLength={18}
         delay={0}
         duration={5.1}
       />
@@ -189,16 +189,16 @@ export function AiNetwork() {
         containerRef={containerRef}
         fromRef={bottomLeftRef}
         toRef={centerRef}
-        fromAnchor="top"
+        fromAnchor="right"
         toAnchor="left"
-        curvature={30}
+        curvature={24}
         reverse={true}
-        pathColor="rgba(59,130,246,0.2)"
+        pathColor="rgba(148,163,184,0.2)"
         pathWidth={2}
         pathOpacity={0.85}
         gradientStartColor="#60a5fa"
-        gradientStopColor="#bfdbfe"
-        beamLength={20}
+        gradientStopColor="#a78bfa"
+        beamLength={18}
         delay={0}
         duration={5.1}
       />
@@ -208,13 +208,13 @@ export function AiNetwork() {
         toRef={topRightRef}
         fromAnchor="right"
         toAnchor="left"
-        curvature={30}
-        pathColor="rgba(37,99,235,0.22)"
+        curvature={24}
+        pathColor="rgba(148,163,184,0.22)"
         pathWidth={2}
         pathOpacity={0.9}
-        gradientStartColor="#2563eb"
-        gradientStopColor="#93c5fd"
-        beamLength={20}
+        gradientStartColor="#60a5fa"
+        gradientStopColor="#8b5cf6"
+        beamLength={18}
         delay={0}
         duration={5.1}
       />
@@ -225,12 +225,12 @@ export function AiNetwork() {
         fromAnchor="right"
         toAnchor="left"
         curvature={0}
-        pathColor="rgba(14,165,233,0.2)"
+        pathColor="rgba(148,163,184,0.2)"
         pathWidth={2}
         pathOpacity={0.85}
-        gradientStartColor="#0ea5e9"
-        gradientStopColor="#67e8f9"
-        beamLength={20}
+        gradientStartColor="#38bdf8"
+        gradientStopColor="#8b5cf6"
+        beamLength={18}
         delay={0}
         duration={5.1}
       />
@@ -239,14 +239,14 @@ export function AiNetwork() {
         fromRef={centerRef}
         toRef={bottomRightRef}
         fromAnchor="right"
-        toAnchor="top"
-        curvature={-30}
-        pathColor="rgba(59,130,246,0.2)"
+        toAnchor="left"
+        curvature={-24}
+        pathColor="rgba(148,163,184,0.2)"
         pathWidth={2}
         pathOpacity={0.85}
-        gradientStartColor="#3b82f6"
-        gradientStopColor="#bfdbfe"
-        beamLength={20}
+        gradientStartColor="#60a5fa"
+        gradientStopColor="#a78bfa"
+        beamLength={18}
         delay={0}
         duration={5.1}
       />
